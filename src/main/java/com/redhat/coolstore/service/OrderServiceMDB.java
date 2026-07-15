@@ -1,12 +1,12 @@
 package com.redhat.coolstore.service;
 
-import javax.ejb.ActivationConfigProperty;
-import javax.ejb.MessageDriven;
-import javax.inject.Inject;
-import javax.jms.JMSException;
-import javax.jms.Message;
-import javax.jms.MessageListener;
-import javax.jms.TextMessage;
+import jakarta.ejb.ActivationConfigProperty;
+import jakarta.ejb.MessageDriven;
+import jakarta.inject.Inject;
+import jakarta.jms.JMSException;
+import jakarta.jms.Message;
+import jakarta.jms.MessageListener;
+import jakarta.jms.TextMessage;
 
 import com.redhat.coolstore.model.Order;
 import com.redhat.coolstore.utils.Transformers;
@@ -15,7 +15,7 @@ import java.util.logging.Logger;
 
 @MessageDriven(name = "OrderServiceMDB", activationConfig = {
     @ActivationConfigProperty(propertyName = "destinationLookup", propertyValue = "topic/orders"),
-    @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Topic"),
+    @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "jakarta.jms.Topic"),
     @ActivationConfigProperty(propertyName = "acknowledgeMode", propertyValue = "Auto-acknowledge")})
 public class OrderServiceMDB implements MessageListener {
 

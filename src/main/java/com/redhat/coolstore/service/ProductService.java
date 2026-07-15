@@ -4,8 +4,8 @@ import com.redhat.coolstore.model.CatalogItemEntity;
 import com.redhat.coolstore.model.Product;
 import com.redhat.coolstore.utils.Transformers;
 
-import javax.ejb.Stateless;
-import javax.inject.Inject;
+import jakarta.ejb.Stateless;
+import jakarta.inject.Inject;
 import java.util.List;
 import java.util.stream.Collectors;
 

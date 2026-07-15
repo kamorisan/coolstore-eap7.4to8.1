@@ -1,6 +1,6 @@
 package com.redhat.coolstore.service;
 
-import javax.ejb.Stateless;
+import jakarta.ejb.Stateless;
 
 import com.redhat.coolstore.model.ShoppingCart;
 

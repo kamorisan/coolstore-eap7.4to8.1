@@ -1,10 +1,10 @@
 package com.redhat.coolstore.utils;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
-import javax.ejb.Startup;
-import javax.inject.Singleton;
-import javax.inject.Inject;
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
+import jakarta.ejb.Startup;
+import jakarta.inject.Singleton;
+import jakarta.inject.Inject;
 import java.util.logging.Logger;
 
 @Singleton

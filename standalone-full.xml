@@ -160,12 +160,18 @@
                         <password>sa</password>
                     </security>
                 </datasource>
+                <!--
+                    The original configuration pointed to a local PostgreSQL instance.
+                    It has been changed to use placeholders that can be supplied at runtime
+                    (e.g., via environment variables or system properties) so the datasource
+                    can connect to a cloud‑hosted PostgreSQL database.
+                -->
                 <datasource jndi-name="java:jboss/datasources/CoolstoreDS" pool-name="postgresDS">
-                    <connection-url>jdbc:postgresql://localhost:5432/postgres</connection-url>
+                    <connection-url>jdbc:postgresql://${CLOUD_DB_HOST}:${CLOUD_DB_PORT}/${CLOUD_DB_NAME}</connection-url>
                     <driver>postgres</driver>
                     <security>
-                        <user-name>postgres</user-name>
-                        <password>postgres</password>
+                        <user-name>${CLOUD_DB_USER}</user-name>
+                        <password>${CLOUD_DB_PASSWORD}</password>
                     </security>
                 </datasource>
                 <drivers>

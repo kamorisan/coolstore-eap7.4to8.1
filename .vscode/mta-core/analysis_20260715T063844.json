@@ -1,0 +1,56 @@
+[
+  {
+    "name": "cloud-readiness",
+    "description": "This ruleset detects logging configurations that may be problematic when migrating an application to a cloud environment.",
+    "violations": {
+      "localhost-jdbc-00002": {
+        "description": "Local JDBC Calls",
+        "category": "mandatory",
+        "labels": [
+          "konveyor.io/target=cloud-readiness",
+          "konveyor.io/source",
+          "localhost"
+        ],
+        "incidents": [
+          {
+            "uri": "file:///Users/kamori/vscode/developer-lightspeed/coolstore-eap7.4to8.1/standalone-full.xml",
+            "message": "The app is trying to access local resource by JDBC, please try to migrate the resource to cloud",
+            "codeSnip": "155                  <datasource jndi-name=\"java:jboss/datasources/ExampleDS\" pool-name=\"ExampleDS\" enabled=\"true\" use-java-context=\"true\" statistics-enabled=\"${wildfly.datasources.statistics-enabled:${wildfly.statistics-enabled:false}}\">\n156                      <connection-url>jdbc:h2:mem:test;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE</connection-url>\n157                      <driver>h2</driver>\n158                      <security>\n159                          <user-name>sa</user-name>\n160                          <password>sa</password>\n161                      </security>\n162                  </datasource>\n163                  <datasource jndi-name=\"java:jboss/datasources/CoolstoreDS\" pool-name=\"postgresDS\">\n164                      <connection-url>jdbc:postgresql://localhost:5432/postgres</connection-url>\n165                      <driver>postgres</driver>\n166                      <security>\n167                          <user-name>postgres</user-name>\n168                          <password>postgres</password>\n169                      </security>\n170                  </datasource>\n171                  <drivers>\n172                      <driver name=\"h2\" module=\"com.h2database.h2\">\n173                          <xa-datasource-class>org.h2.jdbcx.JdbcDataSource</xa-datasource-class>\n174                      </driver>\n175                      <driver name=\"postgres\" module=\"org.postgres\"/>",
+            "lineNumber": 164,
+            "variables": {
+              "matchingText": "postgresql"
+            }
+          }
+        ]
+      }
+    },
+    "unmatched": [
+      "logging-0000",
+      "logging-0001",
+      "local-storage-00002",
+      "jca-00000",
+      "local-storage-00006",
+      "local-storage-00005",
+      "jni-native-code-00001",
+      "jni-native-code-00000",
+      "logging-0001",
+      "local-storage-00004",
+      "mail-00000",
+      "session-00001",
+      "local-storage-00001",
+      "socket-communication-00001",
+      "local-storage-00003",
+      "session-00000",
+      "socket-communication-00000",
+      "logging-0000",
+      "localhost-http-00001",
+      "localhost-ws-00003"
+    ],
+    "skipped": [
+      "java-corba-00000",
+      "java-rmi-00000",
+      "java-rpc-00000"
+    ],
+    "activeProfileName": "Sample"
+  }
+]

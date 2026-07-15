@@ -1,15 +1,15 @@
 #!/bin/bash
 
-CONTAINER_NAME="coolstore-postgres"
+CONTAINER_NAME="coolstore-postgres-eap8"
 
 echo "=========================================="
-echo "  Coolstore EAP7 停止スクリプト"
+echo "  Coolstore EAP8 停止スクリプト"
 echo "=========================================="
 echo ""
 
 # EAPプロセスの停止
 echo "1. EAPサーバーを停止中..."
-EAP_PIDS=$(ps aux | grep "standalone-full.xml" | grep -v grep | awk '{print $2}')
+EAP_PIDS=$(ps aux | grep "jboss-eap-8.1.*standalone-full.xml" | grep -v grep | awk '{print $2}')
 
 if [ -n "$EAP_PIDS" ]; then
     for pid in $EAP_PIDS; do

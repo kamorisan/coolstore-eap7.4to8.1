@@ -4,17 +4,17 @@
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 APP_DIR="$( cd "$SCRIPT_DIR/.." && pwd )"
 
-EAP_HOME=/Users/kamori/vscode/developer-lightspeed/JBossEAP/jboss-eap-7.4
+EAP_HOME=/Users/kamori/vscode/developer-lightspeed/JBossEAP/jboss-eap-8.1
 POSTGRES_JAR=/Users/kamori/vscode/developer-lightspeed/JBossEAP/postgresql-42.7.3.jar
 
 echo "=========================================="
-echo "  Coolstore EAP7 自動セットアップ"
+echo "  Coolstore EAP8 自動セットアップ"
 echo "=========================================="
 echo ""
 
 # 1. PostgreSQLコンテナの起動
 echo "1. PostgreSQLコンテナを起動中..."
-CONTAINER_NAME="coolstore-postgres"
+CONTAINER_NAME="coolstore-postgres-eap8"
 
 # 既存のコンテナをチェックして削除
 if podman ps -a | grep -q $CONTAINER_NAME; then
@@ -28,7 +28,7 @@ podman run -d \
   -e POSTGRES_USER=postgres \
   -e POSTGRES_PASSWORD=postgres \
   -e POSTGRES_DB=postgres \
-  -p 5432:5432 \
+  -p 5433:5432 \
   postgres:13
 
 if [ $? -ne 0 ]; then
@@ -69,19 +69,19 @@ echo "   ✓ ビルド完了: target/ROOT.war"
 # 3. EAPサーバーをバックグラウンドで起動（デフォルトのstandalone-full.xmlを使用）
 echo ""
 echo "3. EAPサーバーを起動中..."
-$EAP_HOME/bin/standalone.sh --server-config=standalone-full.xml > /tmp/eap-startup.log 2>&1 &
+$EAP_HOME/bin/standalone.sh --server-config=standalone-full.xml > /tmp/eap8-startup.log 2>&1 &
 EAP_PID=$!
 
 # EAPの起動を待機（管理インターフェースが起動するのを待つ）
 echo "   EAPサーバーの起動を待機中..."
 for i in {1..60}; do
-    if grep -q "WFLYSRV0025\|WFLYSRV0026" /tmp/eap-startup.log 2>/dev/null; then
+    if grep -q "WFLYSRV0025\|WFLYSRV0026" /tmp/eap8-startup.log 2>/dev/null; then
         echo "   ✓ EAPサーバーが起動しました"
         break
     fi
     if [ $i -eq 60 ]; then
         echo "   ✗ EAPサーバーの起動タイムアウト"
-        echo "   ログを確認してください: /tmp/eap-startup.log"
+        echo "   ログを確認してください: /tmp/eap8-startup.log"
         kill $EAP_PID
         exit 1
     fi
@@ -120,7 +120,7 @@ end-try
 
 # データソースの追加（既に存在する場合はエラーを無視）
 try
-    data-source add --name=postgresDS --jndi-name=java:jboss/datasources/CoolstoreDS --driver-name=postgres --connection-url=jdbc:postgresql://localhost:5432/postgres --user-name=postgres --password=postgres --enabled=true
+    data-source add --name=postgresDS --jndi-name=java:jboss/datasources/CoolstoreDS --driver-name=postgres --connection-url=jdbc:postgresql://localhost:5433/postgres --user-name=postgres --password=postgres --enabled=true
 catch
     echo "DataSource already exists, skipping..."
 end-try
@@ -151,7 +151,7 @@ else
         echo "   ✓ 設定とデプロイ完了"
     else
         echo "   ✗ デプロイに失敗しました"
-        echo "   EAPログを確認してください: /tmp/eap-startup.log"
+        echo "   EAPログを確認してください: /tmp/eap8-startup.log"
         exit 1
     fi
 fi
@@ -168,7 +168,7 @@ echo "=========================================="
 echo ""
 echo "アプリケーションURL: http://localhost:8080/"
 echo ""
-echo "EAPサーバーログ: /tmp/eap-startup.log"
+echo "EAPサーバーログ: /tmp/eap8-startup.log"
 echo "EAP管理コンソール: http://localhost:9990/"
 echo ""
 echo "EAPサーバーのPID: $EAP_PID"

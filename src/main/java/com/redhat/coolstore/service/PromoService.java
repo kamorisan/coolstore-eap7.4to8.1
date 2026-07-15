@@ -6,7 +6,8 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import javax.enterprise.context.ApplicationScoped;
+// Updated import: use Jakarta EE namespace
+import jakarta.enterprise.context.ApplicationScoped;
 
 import com.redhat.coolstore.model.Promotion;
 import com.redhat.coolstore.model.ShoppingCart;

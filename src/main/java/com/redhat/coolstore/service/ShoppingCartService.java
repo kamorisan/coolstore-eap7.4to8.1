@@ -4,11 +4,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
 
-import javax.annotation.Resource;
-import javax.ejb.Stateful;
-import javax.inject.Inject;
-import javax.jms.JMSContext;
-import javax.jms.Topic;
+import jakarta.annotation.Resource;
+import jakarta.ejb.Stateful;
+import jakarta.inject.Inject;
+import jakarta.jms.JMSContext;
+import jakarta.jms.Topic;
 
 import com.redhat.coolstore.model.Product;
 import com.redhat.coolstore.model.ShoppingCart;
