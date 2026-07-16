@@ -16,8 +16,8 @@ RUN mvn clean package -DskipTests
 # Stage 2: Runtime with EAP (use full image, not runtime-only)
 FROM registry.redhat.io/jboss-eap-7/eap74-openjdk8-openshift-rhel8:latest
 
-# Copy standalone configuration
-COPY --chown=jboss:jboss standalone-full.xml /opt/eap/standalone/configuration/
+# Copy standalone configuration (overwrite standalone-openshift.xml)
+COPY --chown=jboss:jboss standalone-full.xml /opt/eap/standalone/configuration/standalone-openshift.xml
 
 # Copy application WAR from builder stage
 COPY --chown=jboss:jboss --from=builder /workspace/target/ROOT.war /opt/eap/standalone/deployments/
