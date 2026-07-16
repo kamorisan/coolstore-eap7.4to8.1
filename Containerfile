@@ -13,8 +13,8 @@ WORKDIR /workspace
 # Build WAR file
 RUN mvn clean package -DskipTests
 
-# Stage 2: Runtime with EAP
-FROM registry.redhat.io/jboss-eap-7/eap74-openjdk8-runtime-openshift-rhel8:latest
+# Stage 2: Runtime with EAP (use full image, not runtime-only)
+FROM registry.redhat.io/jboss-eap-7/eap74-openjdk8-openshift-rhel8:latest
 
 # Copy standalone configuration
 COPY --chown=jboss:jboss standalone-full.xml /opt/eap/standalone/configuration/
