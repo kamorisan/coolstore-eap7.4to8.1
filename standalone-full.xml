@@ -161,18 +161,17 @@
                     </security>
                 </datasource>
                 <datasource jndi-name="java:jboss/datasources/CoolstoreDS" pool-name="postgresDS">
-                    <connection-url>jdbc:postgresql://localhost:5432/postgres</connection-url>
-                    <driver>postgres</driver>
+                    <connection-url>jdbc:postgresql://${env.DB_HOST:localhost}:${env.DB_PORT:5432}/${env.DB_NAME:postgres}</connection-url>
+                    <driver>postgresql-jdbc.jar</driver>
                     <security>
-                        <user-name>postgres</user-name>
-                        <password>postgres</password>
+                        <user-name>${env.DB_USERNAME:postgres}</user-name>
+                        <password>${env.DB_PASSWORD:postgres}</password>
                     </security>
                 </datasource>
                 <drivers>
                     <driver name="h2" module="com.h2database.h2">
                         <xa-datasource-class>org.h2.jdbcx.JdbcDataSource</xa-datasource-class>
                     </driver>
-                    <driver name="postgres" module="org.postgres"/>
                 </drivers>
             </datasources>
         </subsystem>
