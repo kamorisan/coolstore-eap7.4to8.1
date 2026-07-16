@@ -40,6 +40,8 @@ spec:
         # Server Configuration
         - name: STANDALONE_XML
           value: standalone-full.xml
+        - name: DISABLE_EMBEDDED_JMS_BROKER
+          value: "true"
         # Database Connection - from Secret
         - name: DB_HOST
           valueFrom:
