@@ -1,0 +1,26 @@
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  name: coolstore-eap74
+  labels:
+    app: coolstore
+    component: application
+    version: eap74
+spec:
+  output:
+    to:
+      kind: ImageStreamTag
+      name: coolstore-eap74:latest
+  source:
+    type: Git
+    git:
+      uri: https://github.com/kamorisan/coolstore-eap7.4to8.1.git
+      ref: main
+    contextDir: /
+  strategy:
+    type: Docker
+    dockerStrategy:
+      dockerfilePath: Containerfile
+  triggers:
+  - type: ConfigChange
+  - type: ImageChange

@@ -1,0 +1,8 @@
+# OpenShift S2I Environment Variables
+# これらの値はOpenShift上ではSecretやConfigMapで上書きされます
+
+# Maven settings
+MAVEN_ARGS_APPEND=-Dmaven.test.skip=true
+
+# JBoss EAP settings
+SCRIPT_DEBUG=false

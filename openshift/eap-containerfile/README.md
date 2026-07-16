@@ -2,20 +2,15 @@
 
 ## 概要
 
-Containerfile + podman を使用してEAPアプリケーションをコンテナイメージ化し、OpenShiftにデプロイします。
+Containerfile + OpenShift BuildConfig (Docker Strategy) を使用してEAPアプリケーションをコンテナイメージ化し、OpenShiftにデプロイします。
 
 **S2I方式との違い:**
 - ✅ ローカル環境の設定（standalone-full.xml）をそのまま使用可能
 - ✅ 設定変更が最小限
-- ✅ ローカルでビルド＆テスト可能
-- ⚠️ ビルドマシンにpodmanとMavenが必要
+- ✅ GitHubリポジトリから直接ビルド（ローカルビルド不要）
+- ✅ マルチステージビルド（Maven + EAP Runtime）
 
 ## 前提条件
-
-### ローカル環境
-- Maven 3.x
-- podman
-- Red Hat Container Registryへのアクセス権限
 
 ### OpenShift環境
 - PostgreSQLがデプロイ済み
@@ -25,53 +20,16 @@ PostgreSQLのデプロイ方法は [../postgresql/README.md](../postgresql/READM
 
 ## デプロイ手順
 
-### 1. イメージビルド
+### クイックスタート（推奨）
 
 ```bash
-# リポジトリルートで実行
-cd /path/to/coolstore-eap7.4to8.1
-
-# ビルドスクリプト実行
-./build-image.sh
+cd openshift/eap-containerfile
+./deploy.sh
 ```
 
-このスクリプトは以下を実行します:
-1. `mvn clean package` - WARファイルのビルド
-2. `podman build` - コンテナイメージの作成
+このスクリプトが全て自動実行します（ImageStream、BuildConfig、Deployment、Service、Route）。
 
-ビルド成功後、`coolstore-eap74:latest` イメージが作成されます。
-
-### 2. ローカルテスト（オプション）
-
-```bash
-# .env ファイルが必要
-./run-local-container.sh
-```
-
-ブラウザで確認:
-- アプリケーション: http://localhost:8080
-- 管理コンソール: http://localhost:9990
-
-終了: `Ctrl+C`
-
-### 3. OpenShiftへイメージプッシュ
-
-```bash
-# admin-dev namespaceへプッシュ
-./push-to-openshift.sh admin-dev
-
-# 別のnamespaceへプッシュする場合
-./push-to-openshift.sh user01-dev
-```
-
-このスクリプトは以下を実行します:
-1. OpenShiftログイン確認
-2. Namespace確認
-3. Internal Registry URLの取得
-4. イメージのタグ付け
-5. プッシュ
-
-### 4. アプリケーションデプロイ
+### 手動デプロイ
 
 ```bash
 # OpenShiftにログイン

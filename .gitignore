@@ -1,0 +1,14 @@
+# MTA (Migration Toolkit for Applications) analysis files
+.vscode/mta-core/
+
+# Environment variables (contains sensitive data)
+.env
+
+# Build artifacts
+target/
+*.war
+*.ear
+*.jar
+
+# Log files
+*.log
