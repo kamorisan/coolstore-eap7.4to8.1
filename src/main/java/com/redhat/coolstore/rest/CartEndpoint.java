@@ -8,8 +8,8 @@ import java.util.Map;
 
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
-// import javax.jms.JMSDestinationDefinition;
-// import javax.jms.JMSDestinationDefinitions;
+import javax.jms.JMSDestinationDefinition;
+import javax.jms.JMSDestinationDefinitions;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -25,16 +25,15 @@ import com.redhat.coolstore.service.ShoppingCartService;
 
 @SessionScoped
 @Path("/cart")
-// JMS destination is defined in standalone-full.xml
-// @JMSDestinationDefinitions(
-// 	value = {
-// 		@JMSDestinationDefinition(
-// 			name = "java:/jms/queue/orders",
-// 			interfaceName = "javax.jms.Queue",
-// 			destinationName = "ordersQueue"
-// 		)
-// 	}
-// )
+@JMSDestinationDefinitions(
+	value = {
+		@JMSDestinationDefinition(
+			name = "java:/jms/queue/orders",
+			interfaceName = "javax.jms.Queue",
+			destinationName = "ordersQueue"
+		)
+	}
+)
 public class CartEndpoint implements Serializable {
 
 	private static final long serialVersionUID = -7227732980791688773L;
