@@ -28,5 +28,4 @@ COPY --chown=jboss:jboss --from=builder /workspace/target/ROOT.war /opt/eap/stan
 # Expose ports
 EXPOSE 8080 8443 8778
 
-# Run EAP (use JBOSS_HOME)
-CMD ["/opt/jboss/container/java/run/run.sh"]
+# Use base image's default ENTRYPOINT/CMD
