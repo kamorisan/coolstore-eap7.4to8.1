@@ -1,0 +1,81 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: coolstore-eap74
+  labels:
+    app: coolstore
+    component: application
+    version: eap74
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: coolstore
+      component: application
+      version: eap74
+  template:
+    metadata:
+      labels:
+        app: coolstore
+        component: application
+        version: eap74
+    spec:
+      containers:
+      - name: eap
+        image: image-registry.openshift-image-registry.svc:5000/admin-dev/coolstore-eap74:latest
+        ports:
+        - containerPort: 8080
+          name: http
+          protocol: TCP
+        - containerPort: 8443
+          name: https
+          protocol: TCP
+        - containerPort: 8778
+          name: jolokia
+          protocol: TCP
+        - containerPort: 9990
+          name: management
+          protocol: TCP
+        env:
+        # Database Connection - from Secret
+        - name: DB_HOST
+          valueFrom:
+            secretKeyRef:
+              name: coolstore-db-secret
+              key: DB_HOST
+        - name: DB_PORT
+          valueFrom:
+            secretKeyRef:
+              name: coolstore-db-secret
+              key: DB_PORT
+        - name: DB_NAME
+          valueFrom:
+            secretKeyRef:
+              name: coolstore-db-secret
+              key: DB_NAME
+        - name: DB_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: coolstore-db-secret
+              key: DB_USERNAME
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: coolstore-db-secret
+              key: DB_PASSWORD
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 8080
+            scheme: HTTP
+          initialDelaySeconds: 60
+          periodSeconds: 10
+          timeoutSeconds: 5
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 8080
+            scheme: HTTP
+          initialDelaySeconds: 30
+          periodSeconds: 5
+          timeoutSeconds: 3
