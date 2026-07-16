@@ -25,7 +25,8 @@ COPY --chown=jboss:jboss --from=builder /workspace/target/ROOT.war /opt/eap/stan
 # EAP will use environment variables from deployment
 # DB_HOST, DB_PORT, DB_NAME, DB_USERNAME, DB_PASSWORD
 
+# Set server configuration file
+ENV STANDALONE_XML=standalone-full.xml
+
 # Expose ports
 EXPOSE 8080 8443 8778
-
-# Use base image's default ENTRYPOINT/CMD
